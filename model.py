@@ -1,6 +1,7 @@
 """ datamodel and functions for she owns """
 
 from flask_sqlalchemy import SQLAlchemy
+from marshmallow import Schema, fields, pprint
 
 # connection to the PostgreSQL database
 db = SQLAlchemy()
@@ -23,6 +24,13 @@ class Business(db.Model):
     def __repr__(self):
         return "business_id={}, name={}".format(self.business_id, self.name)
 
+    @classmethod
+    def serialize_business_object(cls, businesses):
+
+        schema = BusinessSchema(many=True)
+
+        return schema.dump(businesses)
+
 
 class Category(db.Model):
     """categories of the businesses in the db"""
@@ -31,6 +39,14 @@ class Category(db.Model):
 
     category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category = db.Column(db.String(100))
+
+
+class BusinessSchema(Schema):
+    name = fields.Str()
+    address = fields.Str()
+
+    def __repr__(self):
+        return "BusinessSchema instantiated"
 
 
 # association table between Category and Business
