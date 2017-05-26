@@ -31,6 +31,12 @@ class Business(db.Model):
 
         return schema.dump(businesses)
 
+    @classmethod
+    def get_business_by_id(name):
+        """return business_id by name"""
+
+        return Business.query.filter_by(name=name).one().business_id
+
 
 class Category(db.Model):
     """categories of the businesses in the db"""
