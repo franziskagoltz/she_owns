@@ -1,0 +1,26 @@
+{
+  "name": "she_owns",
+  "version": "1.0.0",
+  "description": "A site to find businesses in SF owned by women",
+  "main": "index.js",
+  "scripts": {
+    "babel": "babel --presets es2015 js/main.js -o build/main.bundle.js",
+    "start": "http-server"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franziskagoltz/she_owns.git"
+  },
+  "author": "Franziska von der Goltz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/franziskagoltz/she_owns/issues"
+  },
+  "homepage": "https://github.com/franziskagoltz/she_owns#readme",
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-preset-es2015": "^6.24.1",
+    "http-server": "^0.10.0"
+  }
+}
