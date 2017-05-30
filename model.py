@@ -46,6 +46,8 @@ class Category(db.Model):
     category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category = db.Column(db.String(100))
 
+    def __repr__(self):
+        return "category_id={}, category={}".format(self.category, self.category)
 
 class BusinessSchema(Schema):
     name = fields.Str()
