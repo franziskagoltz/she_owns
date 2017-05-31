@@ -18,9 +18,6 @@ class Business(db.Model):
     name = db.Column(db.String(150), nullable=False)
     address = db.Column(db.String(150))
 
-    business_categories = db.relationship("Category", secondary="business_categories",
-                                          backref=db.backref("categories"))
-
     def __repr__(self):
         return "business_id={}, name={}".format(self.business_id, self.name)
 
@@ -46,8 +43,11 @@ class Category(db.Model):
     category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category = db.Column(db.String(100))
 
+    categories_business = db.relationship("Business", secondary="categories_business",
+                                          backref=db.backref("businesses"))
+
     def __repr__(self):
-        return "category_id={}, category={}".format(self.category, self.category)
+        return "category_id={}, category={}".format(self.category_id, self.category)
 
 class BusinessSchema(Schema):
     name = fields.Str()
@@ -58,7 +58,7 @@ class BusinessSchema(Schema):
 
 
 # association table between Category and Business
-business_categories = db.Table("business_categories",
+categories_business = db.Table("categories_business",
                                db.Column("business_id", db.Integer,
                                          db.ForeignKey("businesses.business_id")),
                                db.Column("category_id", db.Integer,
