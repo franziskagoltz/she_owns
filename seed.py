@@ -17,19 +17,24 @@ def load_data(row):
 
     business = Business(name=name, address=address)
 
-    for c in categories.split(", "):
+    for category in categories.split(", "):
+
+        # getting all existing category objects in the db
+        categories_in_db = Category.query.all()
+
+        list_of_categories_in_db = [ c.category for c in categories_in_db ]
 
         # checking if category is already in db
-        categories_in_db = Category.query.filter(Category.category == c).all()
+        if category not in list_of_categories_in_db:
+            category = Category(category=category)
 
-        if not categories_in_db:
-            category = Category(category=c)
+        else:
+            category = Category.query.filter(Category.category == category).one()
 
-            # adding data to the association table
-            business.business_categories.append(category)
+        # adding data to the association table
+        category.categories_business.append(business)
 
-        db.session.add(business)
-
+        db.session.add(category)
         db.session.commit()
 
 
