@@ -49,6 +49,13 @@ class Category(db.Model):
     def __repr__(self):
         return "category_id={}, category={}".format(self.category_id, self.category)
 
+    @classmethod
+    def get_all_categories(cls):
+        """Return all categories stored in db"""
+
+        return Category.query.all()
+
+
 class BusinessSchema(Schema):
     name = fields.Str()
     address = fields.Str()
