@@ -20,7 +20,7 @@ def load_data(row):
     for category in categories.split(", "):
 
         # getting all existing category objects in the db
-        categories_in_db = Category.query.all()
+        categories_in_db = Category.get_all_categories()
 
         list_of_categories_in_db = [ c.category for c in categories_in_db ]
 
