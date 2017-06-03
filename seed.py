@@ -29,7 +29,7 @@ def load_data(row):
             category = Category(category=category)
 
         else:
-            category = Category.query.filter(Category.category == category).one()
+            category = Category.get_category_by_name(category)
 
         # adding data to the association table
         category.categories_business.append(business)
