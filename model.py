@@ -56,10 +56,11 @@ class Category(db.Model):
         return Category.query.all()
 
     @classmethod
-    def get_category_by_name(cls, name):
+    def get_category_by_name(cls, category):
         """Return one category filtered by name"""
 
-        return Category.query.filter(Category.category == category).one()
+        return Category.query.filter(Category.category.ilike("%"+category+"%")).one()
+
 
 class BusinessSchema(Schema):
     name = fields.Str()
