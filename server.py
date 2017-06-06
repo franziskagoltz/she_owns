@@ -1,8 +1,11 @@
 """server file for she owns"""
 
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, jsonify
+from sqlalchemy.orm.exc import NoResultFound
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
+
+from model import Business, Category, connect_to_db
 
 app = Flask(__name__)
 
@@ -25,6 +28,25 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/getBusinessInfo.json")
+def get_business_info():
+    """return a json element with businesses associated to the given category"""
+
+    category = request.args.get("searchTerm", "")
+
+    try:
+        # get category object with search term
+        category_object = Category.get_category_by_name(category)
+
+    except NoResultFound:
+        return "Can't find businesses"
+
+    # getting businesses assocaited with elected category
+    businesses = category_object.categories_business
+
+    return jsonify(Business.serialize_business_object(businesses))
+
+
 if __name__ == "__main__":
     # Setting debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
@@ -32,5 +54,7 @@ if __name__ == "__main__":
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
+
+    connect_to_db(app)
 
     app.run(host="0.0.0.0")
