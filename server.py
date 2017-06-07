@@ -1,5 +1,6 @@
 """server file for she owns"""
 
+import os
 from flask import Flask, render_template, redirect, request, jsonify
 from sqlalchemy.orm.exc import NoResultFound
 from flask_debugtoolbar import DebugToolbarExtension
@@ -19,6 +20,9 @@ app.jinja_env.undefined = StrictUndefined
 # auto-reloads changes we made, so we don't have to reload manually everytime
 # we make a little change
 app.jinja_env.auto_reload = True
+
+# Google Maps API Key
+google_maps_key = os.environ.get("GMaps_Key")
 
 
 @app.route("/")
