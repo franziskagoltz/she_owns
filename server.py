@@ -32,6 +32,16 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/business-map")
+def display_map():
+    """displays map with businesses based on selected category"""
+
+    return render_template("map_results.html")
+
+
+# ------------------------------- JSON ROUTES ------------------------------- #
+
+
 @app.route("/getBusinessInfo.json")
 def get_business_info():
     """return a json element with businesses associated to the given category"""
