@@ -2,7 +2,7 @@
 
 import os
 from flask import Flask, render_template, redirect, request, jsonify
-from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.orm.exc import NoResultFound, MultipleResultsFound
 from flask_debugtoolbar import DebugToolbarExtension
 from jinja2 import StrictUndefined
 
@@ -52,8 +52,8 @@ def get_business_info():
         # get category object with search term
         category_object = Category.get_category_by_name(category)
 
-    except NoResultFound:
-        return "Can't find businesses"
+    except (NoResultFound, MultipleResultsFound):
+        return "Can't find matches"
 
     # getting businesses assocaited with elected category
     businesses = category_object.categories_business
