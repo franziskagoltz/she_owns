@@ -1,6 +1,7 @@
 """ datamodel and functions for she owns """
 
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm.exc import MultipleResultsFound
 from marshmallow import Schema, fields, pprint
 
 # connection to the PostgreSQL database
@@ -59,7 +60,11 @@ class Category(db.Model):
     def get_category_by_name(cls, category):
         """Return one category filtered by name"""
 
-        return Category.query.filter(Category.category.ilike("%"+category+"%")).one()
+        try:
+            return Category.query.filter(Category.category.ilike("%"+category+"%")).one()
+
+        except MultipleResultsFound:
+           return Category.query.filter(Category.category.ilike("%"+category+"%")).all()
 
 
 class BusinessSchema(Schema):
