@@ -28,7 +28,7 @@ google_maps_key = os.environ.get("GMaps_Key")
 def index():
     """render index page with """
 
-    return render_template("index.html")
+    return render_template("index.html", google_maps_key=google_maps_key)
 
 
 @app.route("/business-map")
