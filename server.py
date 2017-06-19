@@ -24,7 +24,6 @@ app.jinja_env.auto_reload = True
 # Google Maps API Key
 google_maps_key = os.environ.get("GMaps_Key")
 
-
 @app.route("/")
 def index():
     """render index page with """
@@ -52,11 +51,19 @@ def get_business_info():
         # get category object with search term
         category_object = Category.get_category_by_name(category)
 
-    except (NoResultFound, MultipleResultsFound):
-        return "Can't find matches"
+    except NoResultFound:
+        return jsonify({"data": "Can't find matches"})
 
-    # getting businesses assocaited with elected category
-    businesses = category_object.categories_business
+    # getting businesses associated with elected category
+    try:
+        businesses = category_object.categories_business
+
+    # when we have multiple matches, we get a list -> categories_business throws
+    # AttributeError (list does not have that attribute
+    except AttributeError:
+
+        # todo: turn list of objects into one big object to pass to JS
+        return jsonify({"data": "Can't find matches"})
 
     return jsonify(Business.serialize_business_object(businesses))
 
