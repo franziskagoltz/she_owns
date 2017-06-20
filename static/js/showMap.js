@@ -1,25 +1,26 @@
 // ES6 class generating a map centered in SF
-// TODO: add a selectCategory function to class that set markers based on passed objects from DB
 import fetch from "isomorphic-fetch";
 
 
+let map;
 class showMap {
     constructor() {
       this.initMap();
     }
     initMap() {
-        const map = new google.maps.Map(document.getElementById("map"), {
+        map = new google.maps.Map(document.getElementById("map"), {
           // center map on SF
           center: {lat: 37.7749, lng: -122.4194},
           zoom: 11
         });
-
-        // placeholder address of Trouble Coffee Shop in San Francisco
-        var address = "4033 Judah St, San Francisco, CA 94122";
+    }
+    addMarker(business) {
 
         // making API call to geocode address into lat/lng to create markers
+        // placeholder for now -- will add lat/lng to db & make api call when
+        // populating the database
         fetch("https://maps.googleapis.com/maps/api/geocode/json?address="+
-              address+"&key=AIzaSyA_v4tGjA9aTrB5HL7ZZs5Df7I5h7k31uY").then(
+              business.address+"&key="+gMapsKey).then(
                 (response) => {
                     return response.json() }).then( (results) => {
 
@@ -30,7 +31,7 @@ class showMap {
                       new google.maps.Marker({
                           map: map,
                           position: newMarker,
-                          title: 'Hi Business!'
+                          title: business.name
                         });
                     })
       }
