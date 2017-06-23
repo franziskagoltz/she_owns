@@ -35,7 +35,7 @@ def index():
 def display_map():
     """displays map with businesses based on selected category"""
 
-    return render_template("map_results.html")
+    return render_template("map_results.html", google_maps_key=google_maps_key)
 
 
 # ------------------------------- JSON ROUTES ------------------------------- #
