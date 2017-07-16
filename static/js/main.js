@@ -10,14 +10,22 @@ function initMap() {
     jsMap = new showMap();
 }
 
+
 // setting initmap global, so googlemaps api link can access callback
 window.initMap = initMap
 
 
 // click event searching for categories
-$("#find").on("click", () => {
+$("#find").on("click", (evt) => {
+evt.preventDefault();
 
     let searchTerm = $("#search").val();
+
+    // delete old markers and then empty the array of markers from old search
+    // results, based on https://developers.google.com/maps/documentation/
+    //                   javascript/examples/marker-remove
+    jsMap.deleteMarkers();
+    jsMap.gMarkers = [];
 
     // call to json route to get data
     fetch("/getBusinessInfo.json"+"?searchTerm="+searchTerm).then( (response) => {
@@ -42,6 +50,4 @@ $("#find").on("click", () => {
             console.log(TypeError);
         }
     })
-
 })
-

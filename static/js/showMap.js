@@ -2,16 +2,16 @@
 import fetch from "isomorphic-fetch";
 
 
-let map;
 class showMap {
     constructor() {
+      this.gMarkers = [];
       this.initMap();
     }
     initMap() {
         map = new google.maps.Map(document.getElementById("map"), {
           // center map on SF
           center: {lat: 37.7749, lng: -122.4194},
-          zoom: 11
+          zoom: 12
         });
     }
     addMarker(business) {
@@ -28,12 +28,22 @@ class showMap {
                       var newMarker = results.results[0].geometry.location
 
                       // create and set a marker and specific location
-                      new google.maps.Marker({
+                      var marker = new google.maps.Marker({
                           map: map,
                           position: newMarker,
                           title: business.name
                         });
+
+                      this.gMarkers.push(marker);
+                      console.log(this.gMarkers);
                     })
+
+      }
+      deleteMarkers() {
+
+          for(var i=0; i<this.gMarkers.length; i++){
+            this.gMarkers[i].setMap(null);
+          }
       }
 }
 

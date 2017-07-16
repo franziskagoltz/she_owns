@@ -9928,7 +9928,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // ES6 class generating a map centered in SF
-// TODO: add a selectCategory function to class that set markers based on passed objects from DB
 
 
 var _isomorphicFetch = __webpack_require__(0);
@@ -9939,12 +9938,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var map = void 0;
-
 var showMap = function () {
   function showMap() {
     _classCallCheck(this, showMap);
 
+    this.gMarkers = [];
     this.initMap();
   }
 
@@ -9954,14 +9952,17 @@ var showMap = function () {
       map = new google.maps.Map(document.getElementById("map"), {
         // center map on SF
         center: { lat: 37.7749, lng: -122.4194 },
-        zoom: 11
+        zoom: 12
       });
     }
   }, {
     key: "addMarker",
     value: function addMarker(business) {
+      var _this = this;
 
       // making API call to geocode address into lat/lng to create markers
+      // placeholder for now -- will add lat/lng to db & make api call when
+      // populating the database
       (0, _isomorphicFetch2.default)("https://maps.googleapis.com/maps/api/geocode/json?address=" + business.address + "&key=" + gMapsKey).then(function (response) {
         return response.json();
       }).then(function (results) {
@@ -9970,12 +9971,23 @@ var showMap = function () {
         var newMarker = results.results[0].geometry.location;
 
         // create and set a marker and specific location
-        new google.maps.Marker({
+        var marker = new google.maps.Marker({
           map: map,
           position: newMarker,
           title: business.name
         });
+
+        _this.gMarkers.push(marker);
+        console.log(_this.gMarkers);
       });
+    }
+  }, {
+    key: "deleteMarkers",
+    value: function deleteMarkers() {
+
+      for (var i = 0; i < this.gMarkers.length; i++) {
+        this.gMarkers[i].setMap(null);
+      }
     }
   }]);
 
@@ -10500,17 +10512,30 @@ var _showMap2 = _interopRequireDefault(_showMap);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// instantiating jsMap object
 var jsMap = void 0; //import searchTerm from "./getBusinesses";
 
 function initMap() {
     jsMap = new _showMap2.default();
+    console.log(jsMap);
 }
+
+// setting initmap global, so googlemaps api link can access callback
 window.initMap = initMap;
 
-(0, _jquery2.default)("#find").on("click", function () {
+// click event searching for categories
+(0, _jquery2.default)("#find").on("click", function (evt) {
+    evt.preventDefault();
 
     var searchTerm = (0, _jquery2.default)("#search").val();
 
+    // delete old markers and then empty the array of markers from old search
+    // results, based on https://developers.google.com/maps/documentation/
+    //                   javascript/examples/marker-remove
+    jsMap.deleteMarkers();
+    jsMap.gMarkers = [];
+
+    // call to json route to get data
     (0, _isomorphicFetch2.default)("/getBusinessInfo.json" + "?searchTerm=" + searchTerm).then(function (response) {
 
         return response.json();
@@ -10521,15 +10546,21 @@ window.initMap = initMap;
         try {
             businesses.forEach(function (business) {
 
+                // add marker to for ever business returned
                 jsMap.addMarker(business);
             });
-        } catch (TypeError) {
+        }
+
+        // handing error when no results were returned - todo: handle error
+        catch (TypeError) {
             console.log(TypeError);
         }
     });
+}
 
-    console.log(searchTerm);
-});
+// setting initmap global, so googlemaps api link can access callback
+//window.initMap = initMap
+);
 
 /***/ })
 /******/ ]);
