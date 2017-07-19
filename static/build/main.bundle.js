@@ -9938,18 +9938,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+//let map;
+
 var showMap = function () {
   function showMap() {
     _classCallCheck(this, showMap);
 
     this.gMarkers = [];
+    this.map;
     this.initMap();
   }
 
   _createClass(showMap, [{
     key: "initMap",
     value: function initMap() {
-      map = new google.maps.Map(document.getElementById("map"), {
+      this.map = new google.maps.Map(document.getElementById("map"), {
         // center map on SF
         center: { lat: 37.7749, lng: -122.4194 },
         zoom: 12
@@ -9972,7 +9975,7 @@ var showMap = function () {
 
         // create and set a marker and specific location
         var marker = new google.maps.Marker({
-          map: map,
+          map: _this.map,
           position: newMarker,
           title: business.name
         });
@@ -10517,7 +10520,6 @@ var jsMap = void 0; //import searchTerm from "./getBusinesses";
 
 function initMap() {
     jsMap = new _showMap2.default();
-    console.log(jsMap);
 }
 
 // setting initmap global, so googlemaps api link can access callback
@@ -10556,11 +10558,7 @@ window.initMap = initMap;
             console.log(TypeError);
         }
     });
-}
-
-// setting initmap global, so googlemaps api link can access callback
-//window.initMap = initMap
-);
+});
 
 /***/ })
 /******/ ]);

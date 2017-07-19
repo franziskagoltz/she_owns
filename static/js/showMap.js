@@ -5,10 +5,12 @@ import fetch from "isomorphic-fetch";
 class showMap {
     constructor() {
       this.gMarkers = [];
+      this.map;
       this.initMap();
+
     }
     initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
+        this.map = new google.maps.Map(document.getElementById("map"), {
           // center map on SF
           center: {lat: 37.7749, lng: -122.4194},
           zoom: 12
@@ -29,7 +31,7 @@ class showMap {
 
                       // create and set a marker and specific location
                       var marker = new google.maps.Marker({
-                          map: map,
+                          map: this.map,
                           position: newMarker,
                           title: business.name
                         });
