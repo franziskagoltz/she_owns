@@ -9938,8 +9938,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-//let map;
-
 var showMap = function () {
   function showMap() {
     _classCallCheck(this, showMap);
@@ -9982,6 +9980,16 @@ var showMap = function () {
 
         _this.gMarkers.push(marker);
         console.log(_this.gMarkers);
+
+        var contentString = "<h4>" + business.name + "</h4>" + "<p>" + business.address + "</p>";
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+        marker.addListener('click', function () {
+          infowindow.open(map, marker);
+        });
       });
     }
   }, {

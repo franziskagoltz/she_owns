@@ -10,10 +10,8 @@ function initMap() {
     jsMap = new showMap();
 }
 
-
 // setting initmap global, so googlemaps api link can access callback
 window.initMap = initMap
-
 
 // click event searching for categories
 $("#find").on("click", (evt) => {
@@ -51,3 +49,4 @@ evt.preventDefault();
         }
     })
 })
+
