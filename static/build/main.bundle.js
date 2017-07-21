@@ -9981,7 +9981,7 @@ var showMap = function () {
         _this.gMarkers.push(marker);
         console.log(_this.gMarkers);
 
-        var contentString = "<h4>" + business.name + "</h4>" + "<p>" + business.address + "</p>";
+        var contentString = "<h4><a href='/businesses/<" + business.business_id + ">'>" + business.name + "</a></h4>" + "<p>" + business.address + "</p>";
 
         var infowindow = new google.maps.InfoWindow({
           content: contentString
