@@ -42,7 +42,9 @@ def display_map():
 def show_business_details(business_id):
     """Shows detailed information about a selected business"""
 
-    return render_template("business_details.html")
+    business = Business.get_business_by_id(business_id)
+
+    return render_template("business_details.html", business=business)
 
 
 # ------------------------------- JSON ROUTES ------------------------------- #
