@@ -38,6 +38,13 @@ def display_map():
     return render_template("map_results.html", google_maps_key=google_maps_key)
 
 
+@app.route("/businesses/<int:business_id>")
+def show_business_details(business_id):
+    """Shows detailed information about a selected business"""
+
+    return render_template("business_details.html")
+
+
 # ------------------------------- JSON ROUTES ------------------------------- #
 
 
