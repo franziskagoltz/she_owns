@@ -30,10 +30,10 @@ class Business(db.Model):
         return schema.dump(businesses)
 
     @classmethod
-    def get_business_by_id(name):
+    def get_business_by_id(self, business_id):
         """return business_id by name"""
 
-        return Business.query.filter_by(name=name).one().business_id
+        return Business.query.get(business_id)
 
 
 class Category(db.Model):
@@ -68,6 +68,7 @@ class Category(db.Model):
 
 
 class BusinessSchema(Schema):
+    business_id = fields.Int()
     name = fields.Str()
     address = fields.Str()
 
