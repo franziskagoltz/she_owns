@@ -37,10 +37,9 @@ class showMap {
                         });
 
                       this.gMarkers.push(marker);
-                      console.log(this.gMarkers);
 
-                      var contentString = "<h4><a href='/businesses/<"
-                                          +business.business_id+">'>"
+                      var contentString = "<h4><a href='/businesses/"
+                                          +business.business_id+"'>"
                                           +business.name+"</a></h4>"
                                           +"<p>"+business.address+"</p>";
 

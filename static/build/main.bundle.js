@@ -9961,6 +9961,9 @@ var showMap = function () {
     value: function addMarker(business) {
       var _this = this;
 
+      console.log("adding marker");
+      console.log(Object.keys(business));
+
       // making API call to geocode address into lat/lng to create markers
       // placeholder for now -- will add lat/lng to db & make api call when
       // populating the database
@@ -9981,7 +9984,7 @@ var showMap = function () {
         _this.gMarkers.push(marker);
         console.log(_this.gMarkers);
 
-        var contentString = "<h4><a href='/businesses/<" + business.business_id + ">'>" + business.name + "</a></h4>" + "<p>" + business.address + "</p>";
+        var contentString = "<h4><a href='/businesses/" + business.business_id + "'>" + business.name + "</a></h4>" + "<p>" + business.address + "</p>";
 
         var infowindow = new google.maps.InfoWindow({
           content: contentString
@@ -10555,7 +10558,7 @@ window.initMap = initMap;
     }).then(function (businesses) {
         try {
             businesses.forEach(function (business) {
-
+                console.log(business);
                 // add marker to for ever business returned
                 jsMap.addMarker(business);
             });
