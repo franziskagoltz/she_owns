@@ -24,18 +24,22 @@ app.jinja_env.auto_reload = True
 # Google Maps API Key
 google_maps_key = os.environ.get("GMaps_Key")
 
+# add Google Maps API Key to global scope (all templates have access now)
+app.add_template_global(google_maps_key, "google_maps_key")
+
+
 @app.route("/")
 def index():
     """render index page with """
 
-    return render_template("index.html", google_maps_key=google_maps_key)
+    return render_template("index.html")
 
 
 @app.route("/business-map")
 def display_map():
     """displays map with businesses based on selected category"""
 
-    return render_template("map_results.html", google_maps_key=google_maps_key)
+    return render_template("map_results.html")
 
 
 @app.route("/businesses/<int:business_id>")
