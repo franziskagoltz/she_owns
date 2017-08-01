@@ -18,6 +18,8 @@ class Business(db.Model):
     business_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(150), nullable=False)
     address = db.Column(db.String(150))
+    lat = db.Column(db.Float)
+    lng = db.Column(db.Float)
 
     def __repr__(self):
         return "business_id={}, name={}".format(self.business_id, self.name)
