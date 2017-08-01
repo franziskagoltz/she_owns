@@ -1,13 +1,30 @@
 """add business data to the database"""
 
 import csv
+import requests
 from model import connect_to_db, db, Business, Category
+
+
+google_maps_key = os.environ.get("GMaps_Key")
 
 
 def open_data(filepath):
     """takes filepath and returns file"""
 
     return open(filepath)
+
+
+def get_lat_lng(address):
+    """take address and get lant/lng from google maps geocode api """
+
+    payload = {"address": address, "key": google_maps_key}
+
+    geo_request = requests.get("https://maps.googleapis.com/maps/api/geocode/json?",
+                              params=payload)
+
+    geolocation = geo_request.json()
+
+    return geolocation['results'][0]['geometry']['location']
 
 
 def load_data(row):
