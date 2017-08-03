@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 5);
+/******/ 	return __webpack_require__(__webpack_require__.s = 6);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -77,7 +77,7 @@
 // on the global object (window or self)
 //
 // Return that as the export for use in Webpack, Browserify etc.
-__webpack_require__(4);
+__webpack_require__(5);
 module.exports = self.fetch.bind(self);
 
 /***/ }),
@@ -9914,7 +9914,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	return jQuery;
 });
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)(module)))
 
 /***/ }),
 /* 2 */
@@ -9944,13 +9944,13 @@ var showMap = function () {
 
     this.gMarkers = [];
     this.map;
-    this.initMap();
+    this.initMap("map");
   }
 
   _createClass(showMap, [{
     key: "initMap",
-    value: function initMap() {
-      this.map = new google.maps.Map(document.getElementById("map"), {
+    value: function initMap(div) {
+      this.map = new google.maps.Map(document.getElementById(div), {
         // center map on SF
         center: { lat: 37.7749, lng: -122.4194 },
         zoom: 12
@@ -9959,40 +9959,26 @@ var showMap = function () {
   }, {
     key: "addMarker",
     value: function addMarker(business) {
-      var _this = this;
 
-      console.log("adding marker");
-      console.log(Object.keys(business));
-
-      // making API call to geocode address into lat/lng to create markers
-      // placeholder for now -- will add lat/lng to db & make api call when
-      // populating the database
-      (0, _isomorphicFetch2.default)("https://maps.googleapis.com/maps/api/geocode/json?address=" + business.address + "&key=" + gMapsKey).then(function (response) {
-        return response.json();
-      }).then(function (results) {
-
-        // getting lat/lng of address passed to API
-        var newMarker = results.results[0].geometry.location;
+      var newMarker = { lat: business.lat, lng: business.lng
 
         // create and set a marker and specific location
-        var marker = new google.maps.Marker({
-          map: _this.map,
-          position: newMarker,
-          title: business.name
-        });
+      };var marker = new google.maps.Marker({
+        map: this.map,
+        position: newMarker,
+        title: business.name
+      });
 
-        _this.gMarkers.push(marker);
-        console.log(_this.gMarkers);
+      this.gMarkers.push(marker);
 
-        var contentString = "<h4><a href='/businesses/" + business.business_id + "'>" + business.name + "</a></h4>" + "<p>" + business.address + "</p>";
+      var contentString = "<h4><a href='/businesses/" + business.business_id + "'>" + business.name + "</a></h4>" + "<p>" + business.address + "</p>";
 
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
+      var infowindow = new google.maps.InfoWindow({
+        content: contentString
+      });
 
-        marker.addListener('click', function () {
-          infowindow.open(map, marker);
-        });
+      marker.addListener('click', function () {
+        infowindow.open(map, marker);
       });
     }
   }, {
@@ -10012,6 +9998,56 @@ exports.default = showMap;
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// single map for business details page
+
+var SingleMap = function () {
+    function SingleMap() {
+        _classCallCheck(this, SingleMap);
+
+        this.singleMap;
+        this.initSingleMap();
+    }
+
+    _createClass(SingleMap, [{
+        key: "initSingleMap",
+        value: function initSingleMap() {
+            this.singleMap = new google.maps.Map(document.getElementById("single_map"), {
+                // center map on business location
+                center: latlng,
+                zoom: 12
+            });
+        }
+    }, {
+        key: "addMarker",
+        value: function addMarker() {
+            // create and set a marker and specific location
+            var marker = new google.maps.Marker({
+                map: this.singleMap,
+                position: latlng
+            });
+        }
+    }]);
+
+    return SingleMap;
+}();
+
+exports.default = SingleMap;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10041,7 +10077,7 @@ module.exports = function (module) {
 };
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10506,7 +10542,7 @@ module.exports = function (module) {
 })(typeof self !== 'undefined' ? self : undefined);
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10524,11 +10560,24 @@ var _showMap = __webpack_require__(2);
 
 var _showMap2 = _interopRequireDefault(_showMap);
 
+var _singleMap = __webpack_require__(3);
+
+var _singleMap2 = _interopRequireDefault(_singleMap);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// instantiating jsMap object
-var jsMap = void 0; //import searchTerm from "./getBusinesses";
+//import searchTerm from "./getBusinesses";
+var singleMap = void 0;
+function initSingleMap() {
+    singleMap = new _singleMap2.default();
+    singleMap.addMarker();
+}
 
+// setting initSingleMap global, so googlemaps api link can access callback
+window.initSingleMap = initSingleMap;
+
+// instantiating jsMap object
+var jsMap = void 0;
 function initMap() {
     jsMap = new _showMap2.default();
 }
@@ -10554,11 +10603,12 @@ window.initMap = initMap;
         return response.json();
     }).then(function (value) {
 
+        // value[0] is the list of businesses
         return value[0];
     }).then(function (businesses) {
         try {
             businesses.forEach(function (business) {
-                console.log(business);
+
                 // add marker to for ever business returned
                 jsMap.addMarker(business);
             });

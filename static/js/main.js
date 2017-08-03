@@ -2,6 +2,17 @@
 import $ from "jquery";
 import fetch from "isomorphic-fetch";
 import showMap from "./showMap";
+import SingleMap from "./single-map";
+
+
+let singleMap;
+function initSingleMap() {
+    singleMap = new SingleMap();
+    singleMap.addMarker();
+}
+
+// setting initSingleMap global, so googlemaps api link can access callback
+window.initSingleMap = initSingleMap
 
 
 // instantiating jsMap object
@@ -12,6 +23,7 @@ function initMap() {
 
 // setting initmap global, so googlemaps api link can access callback
 window.initMap = initMap
+
 
 // click event searching for categories
 $("#find").on("click", (evt) => {
@@ -31,6 +43,7 @@ evt.preventDefault();
         return response.json()
     }).then( (value) => {
 
+         // value[0] is the list of businesses
          return value[0]
 
     }).then ( (businesses) => {
@@ -47,6 +60,7 @@ evt.preventDefault();
         catch(TypeError) {
             console.log(TypeError);
         }
+
     })
 })
 
