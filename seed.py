@@ -1,6 +1,7 @@
 """add business data to the database"""
 
 import csv
+import os
 import requests
 from model import connect_to_db, db, Business, Category
 
@@ -32,7 +33,9 @@ def load_data(row):
 
     name, address, categories = row[1:4]
 
-    business = Business(name=name, address=address)
+    lat_lng = get_lat_lng(address)
+
+    business = Business(name=name, address=address, lat=lat_lng["lat"], lng=lat_lng["lng"])
 
     for category in categories.split(", "):
 
@@ -49,9 +52,14 @@ def load_data(row):
             category = Category.get_category_by_name(category)
 
         # adding data to the association table
-        category.categories_business.append(business)
+        if isinstance(category, list):
+            for single_category in category:
+                single_category.categories_business.append(business)
+                db.session.add(single_category)
+        else:
+            category.categories_business.append(business)
+            db.session.add(category)
 
-        db.session.add(category)
         db.session.commit()
 
 
