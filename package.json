@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
-    "jquery": "^3.2.1",
+    "jquery": "^3.2.1"
   }
 }
