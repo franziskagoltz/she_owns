@@ -73,6 +73,8 @@ class BusinessSchema(Schema):
     business_id = fields.Int()
     name = fields.Str()
     address = fields.Str()
+    lat = fields.Float()
+    lng = fields.Float()
 
     def __repr__(self):
         return "BusinessSchema instantiated"
