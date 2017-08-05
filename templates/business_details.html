@@ -2,9 +2,24 @@
 
 {% block content %}
 
+<style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #single_map {
+        height: 200px;
+        width: 400px;
+      }
+
+</style>
+
     <div class="container">
         <h3>{{ business.name }}</h3>
         <h5>{{ business.address }}</h5>
+        <div id="single_map">
+
+        </div>
     </div>
 
+<script>const latlng = { lat: {{business.lat}}, lng: {{business.lng}} }</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initSingleMap" async defer></script>
 {% endblock %}
