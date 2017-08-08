@@ -14,6 +14,12 @@
 
     <div class="container">
         <h3>{{ business.name }}</h3>
+        <p>{% for category in business.businesses %}
+                    {{ category.category }},
+                {% if loop.last %}
+                    {{ category.category }}
+                {% endif %}
+        {% endfor %}</p>
         <h5>{{ business.address }}</h5>
         <div id="single_map">
 
