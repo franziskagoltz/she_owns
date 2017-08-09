@@ -11,7 +11,7 @@ class SingleMap {
         this.singleMap = new google.maps.Map(document.getElementById("single_map"), {
           // center map on business location
           center: latlng,
-          zoom: 12
+          zoom: 16
         });
     }
 

@@ -3771,12 +3771,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 	jQuery.fn.ready = function (fn) {
 
-		readyList.then(fn
+		readyList.then(fn)
 
 		// Wrap jQuery.readyException in a function so that the lookup
 		// happens at the time of error handling instead of callback
 		// registration.
-		).catch(function (error) {
+		.catch(function (error) {
 			jQuery.readyException(error);
 		});
 
@@ -7056,10 +7056,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 		fadeTo: function fadeTo(speed, to, easing, callback) {
 
 			// Show any hidden elements after setting opacity to 0
-			return this.filter(isHiddenWithinTree).css("opacity", 0).show
+			return this.filter(isHiddenWithinTree).css("opacity", 0).show()
 
 			// Animate to the value specified
-			().end().animate({ opacity: to }, speed, easing, callback);
+			.end().animate({ opacity: to }, speed, easing, callback);
 		},
 		animate: function animate(prop, speed, easing, callback) {
 			var empty = jQuery.isEmptyObject(prop),
@@ -10027,7 +10027,7 @@ var SingleMap = function () {
             this.singleMap = new google.maps.Map(document.getElementById("single_map"), {
                 // center map on business location
                 center: latlng,
-                zoom: 12
+                zoom: 16
             });
         }
     }, {
@@ -10298,9 +10298,9 @@ module.exports = function (module) {
       } else if (support.searchParams && URLSearchParams.prototype.isPrototypeOf(body)) {
         this._bodyText = body.toString();
       } else if (support.arrayBuffer && support.blob && isDataView(body)) {
-        this._bodyArrayBuffer = bufferClone(body.buffer
+        this._bodyArrayBuffer = bufferClone(body.buffer);
         // IE 10-11 can't handle a DataView body.
-        );this._bodyInit = new Blob([this._bodyArrayBuffer]);
+        this._bodyInit = new Blob([this._bodyArrayBuffer]);
       } else if (support.arrayBuffer && (ArrayBuffer.prototype.isPrototypeOf(body) || isArrayBufferView(body))) {
         this._bodyArrayBuffer = bufferClone(body);
       } else {

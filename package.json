@@ -24,10 +24,12 @@
     "babel-loader": "^7.0.0",
     "babel-preset-es2015": "^6.24.1",
     "http-server": "^0.10.0",
-    "webpack": "^2.6.1"
+    "webpack": "^2.7.0"
   },
   "dependencies": {
+    "all": "0.0.0",
     "isomorphic-fetch": "^2.2.1",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "npm-install-all": "^1.1.21"
   }
 }
